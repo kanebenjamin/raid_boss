@@ -1,0 +1,79 @@
+#Python packages
+import random
+import math
+
+#My Packages
+import boss
+
+#Lil dice roll function for usage in main- Note: indexing starts at zero so we need to x-1 the dice results
+DICE_ROLL = [0,1,2,3,4,5]
+def roll():
+    return random.choice(DICE_ROLL) + random.choice(DICE_ROLL) 
+
+if __name__ == "__main__":
+    #Some initial player input to set up the game. We need number of players and a name for the raid boss
+    num_players = int(input("Welcome to Raid Boss! How many people are playing? > "))
+    boss_name = str(input(f"Ahh! Welcome to the dungeon, ye {num_players} brave wizard(s)! Who have you come here to slay? > "))
+    print(f"\nHere comes {boss_name} now! Prepare thyselves for a whimsical battle! Best of luck!")
+    #Unsure if doing this yet lol
+    #print("If at any time you need a list of commands, type 'help' and I will give them to you!")
+    #Instantiate the boss
+    stinky = boss.RaidBoss1(player_count=num_players, boss_name=boss_name)
+    #There's probably a better way to do this.. but I'm adding all boss funcs to a list and then snagging them via die result in the main loop
+    boss_funcs = [stinky.two, stinky.three, stinky.four, 
+                  stinky.five, stinky.six, stinky.seven,
+                  stinky.eight, stinky.nine, stinky.ten,
+                  stinky.eleven, stinky.twelve
+                ]
+    #Main loop, keep doing this shit until boss has died or players have died
+    while stinky.health > 0:
+        #Need loop for each player
+        for i in range(0, stinky.player_count):
+            try:
+                damage_done = int(input("Enter damage dealt! (Even if it's zero) and press enter!> "))
+                stinky.health -= damage_done
+            except ValueError:
+                print("Invalid response, I'll assume you meant 0!")
+                damage_done = 0
+            print(f"Boss health at {stinky.health}")
+            #Check for kill, break from player loop
+            if stinky.health <= 0:
+                    break
+
+        #Check again becasue we have to break from main loop as well. Should maybe be a function but fuck it
+        if stinky.health <= 0:
+            break
+
+        num_boss_rolls = math.floor(stinky.turn_count/2)
+        print(f"The boss gets {num_boss_rolls} turn(s) this round! Brace yourself!")
+        for i in range(0, num_boss_rolls):
+            dice_result = roll()
+            print("ROLL> " + str(dice_result))
+            #We're calling a boss function via an indexed list lmao. Hacky or cool? Or Both?
+            stinky.text_result += "\n" + str(boss_funcs[dice_result]()) + "\n"
+            #Reset result for new dice roll
+            result = 0
+            if num_boss_rolls == 0:
+                print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
+        
+        print(f"""THE BOSS ATTACKS!
+              {stinky.text_result}
+          """)
+        try:
+            death_count = int(input("How many players were defeated this turn? (enter 0 if no one was defeated) > "))
+            stinky.player_count -= death_count
+        except ValueError:
+            print("Invalid response! I'm going to assume everyone is still in the fight!")
+        #Reset rules text result, up turn number, check for player elims
+        if stinky.player_count <= 0:
+            print(f"{boss_name} has defeated you!!!! Retreat and come back- next time cast better spells!")
+            break
+        stinky.turn_count += 1
+        stinky.text_result = ""
+
+if stinky.health < 0:
+    print(f"Congratulations! You have defeated {boss_name}! They cower away from your SUPREME WHIMSY! Thanks for playing!")
+else:
+    print("Retry? Run the program again!")
+
+    
