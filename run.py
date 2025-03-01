@@ -39,41 +39,55 @@ if __name__ == "__main__":
             #Check for kill, break from player loop
             if stinky.health <= 0:
                     break
-
         #Check again becasue we have to break from main loop as well. Should maybe be a function but fuck it
         if stinky.health <= 0:
             break
 
         num_boss_rolls = math.floor(stinky.turn_count/2)
-        print(f"The boss gets {num_boss_rolls} turn(s) this round! Brace yourself!")
+        print("NUM BOSS ROLLS: " + str(num_boss_rolls))
+        if not stinky.next_attacks:
+            print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
+        for num in stinky.next_attacks:
+            stinky.text_result += "\n" + str(boss_funcs[num]()) + "\n"
+
+        #Reset next attacks for usage in subsequent loop
+        stinky.next_attacks = []
+        #Get the next attacks, we need a turn one case. I'm sure there is a way to do it with the loop but im fried and cant think
+        print("TURN COUNT" + str(stinky.turn_count))
+        if stinky.turn_count == 1:
+            dice_result = roll()
+            stinky.next_attacks.append(dice_result)
         for i in range(0, num_boss_rolls):
             dice_result = roll()
-            print("ROLL> " + str(dice_result))
-            #We're calling a boss function via an indexed list lmao. Hacky or cool? Or Both?
-            stinky.text_result += "\n" + str(boss_funcs[dice_result]()) + "\n"
-            #Reset result for new dice roll
-            result = 0
-            if num_boss_rolls == 0:
-                print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
-        
-        print(f"""THE BOSS ATTACKS!
-              {stinky.text_result}
-          """)
+            stinky.next_attacks.append(dice_result)
+        #If turn one, no attack- no need to tell the player there will be an attack if there actually won't be one
+        if stinky.turn_count != 1:
+            print(f"""THE BOSS ATTACKS!
+                {stinky.text_result}
+            """)
+        #Alert the player about next attacks
+        #print("NEXT ROLLS " + str(stinky.next_attacks))
+        print(stinky.get_attack_hint(stinky.next_attacks))
+
         try:
             death_count = int(input("How many players were defeated this turn? (enter 0 if no one was defeated) > "))
             stinky.player_count -= death_count
         except ValueError:
             print("Invalid response! I'm going to assume everyone is still in the fight!")
-        #Reset rules text result, up turn number, check for player elims
         if stinky.player_count <= 0:
             print(f"{boss_name} has defeated you!!!! Retreat and come back- next time cast better spells!")
             break
+        #Reset rules text result, reset attack hint container up turn number, check for player elims
         stinky.turn_count += 1
         stinky.text_result = ""
+        stinky.attack_hint = []
 
+#The end :)
 if stinky.health < 0:
     print(f"Congratulations! You have defeated {boss_name}! They cower away from your SUPREME WHIMSY! Thanks for playing!")
 else:
     print("Retry? Run the program again!")
+
+
 
     
