@@ -19,6 +19,10 @@ if __name__ == "__main__":
     #print("If at any time you need a list of commands, type 'help' and I will give them to you!")
     #Instantiate the boss
     stinky = boss.RaidBoss1(player_count=num_players, boss_name=boss_name)
+    #TODO add a phase two event that only triggers once somehow
+    BOSS_HEALTH = stinky.health
+    EVENT_TRIGGER_AMOUNT = BOSS_HEALTH/2
+    TRIGGER_FLAG = False
     #There's probably a better way to do this.. but I'm adding all boss funcs to a list and then snagging them via die result in the main loop
     boss_funcs = [stinky.two, stinky.three, stinky.four, 
                   stinky.five, stinky.six, stinky.seven,
