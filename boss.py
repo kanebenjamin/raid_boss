@@ -12,60 +12,48 @@ class RaidBoss1(object):
         self.poison = 0
         self.turn_count = 1
         self.text_result = ""
-        self.attack_hint = []
         self.next_attacks = []
 
 
     def two(self):
-        self.attack_hint.append(1)
         return """Each player chooses three: sacrifice all creatures you control, sacrifice all enchantments you control, 
 sacrifice all artifacts you control, exile your graveyard. Boss permanents cannot be sacrificed this way."""
 
     def three(self):
-        self.attack_hint.append(1)
         return """For each player, create a colorless Boss enchantment token named Curse of Confusion under their control with 
 “At the beginning of your end step, choose one: sacrifice a permanent, discard a card, or mill 5."""
         
     def four(self):
-        self.attack_hint.append(2)
         return f"""Create {self.player_count * 4} 1/1 red goblin zombie creature tokens with first strike, decayed, and haste.
  Four tokens attack each player this combat."""
 
     def five(self):
-        self.attack_hint.append(1)
         return f"""Players discard {2 * self.player_count} divided between players."""
 
     def six(self):
-        self.attack_hint.append(2)
         return f"""Create {self.player_count * 2} 2/2 black vampire zombie creature tokens with menace, decayed, and haste.
  Two tokens attack each player this combat."""
 
     def seven(self):
-        self.attack_hint.append(2)
         return f"""Create {self.player_count * 1} 5/5 green beast zombie creature token with trample, decayed, and haste. 
 One token attacks each player this combat."""
 
     def eight(self):
-        self.attack_hint.append(2)
         return f"""Create {self.player_count * 2} 2/2 blue drake zombie creature token with flying, decayed, and haste. 
 One token attacks each player this combat."""
 
     def nine(self):
-        self.attack_hint.append(1)
         return f"""Players sacrifice {self.player_count} nonland, non-token permanents divided between players."""
     
     def ten(self):
-        self.attack_hint.append(1)
         return f"""Create {self.player_count * 4} 1/1 white cleric zombie creature tokens with lifelink, decayed, 
 and haste. Four tokens attack each player this combat."""
     
     def eleven(self):
-        self.attack_hint.append(2)
         return """For each player, create a colorless artifact token named Altar of Bleeding under their 
 control with 'At the beginning of your end step, you lose 3 life unless you pay 2.'"""
     
     def twelve(self):
-        self.attack_hint.append(3)
         self.health += self.player_count * 20
         return f"""{self.boss_name} heals {self.player_count * 20}
 {self.boss_name}'s health is now {self.health}!"""
@@ -89,4 +77,4 @@ control with 'At the beginning of your end step, you lose 3 life unless you pay 
             if num in HEAL_LIST:
                 if HEAL_TEXT not in result:
                     result.append(HEAL_TEXT)
-        return " ".join(result)
+        return " ".join(result) + "\n"

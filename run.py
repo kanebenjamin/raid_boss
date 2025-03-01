@@ -80,7 +80,6 @@ if __name__ == "__main__":
         #Reset rules text result, reset attack hint container up turn number, check for player elims
         stinky.turn_count += 1
         stinky.text_result = ""
-        stinky.attack_hint = []
 
 #The end :)
 if stinky.health < 0:
