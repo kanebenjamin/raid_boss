@@ -34,7 +34,7 @@ if __name__ == "__main__":
         #Need loop for each player
         for i in range(0, stinky.player_count):
             try:
-                damage_done = int(input("Enter damage dealt! (Even if it's zero) and press enter!> "))
+                damage_done = int(input(f"PLAYER {i+1} TURN: Enter damage dealt! (Even if it's zero) and press enter!> "))
                 stinky.health -= damage_done
             except ValueError:
                 print("Invalid response, I'll assume you meant 0!")
@@ -48,7 +48,8 @@ if __name__ == "__main__":
             break
 
         num_boss_rolls = math.floor(stinky.turn_count/2)
-        print("NUM BOSS ROLLS: " + str(num_boss_rolls))
+        print("The boss gets " + str(num_boss_rolls) + " roll(s) this turn! Brace yourself!")
+        print("INFO>DEBUG> " + str(stinky.next_attacks))
         if not stinky.next_attacks:
             print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
         for num in stinky.next_attacks:
@@ -57,7 +58,7 @@ if __name__ == "__main__":
         #Reset next attacks for usage in subsequent loop
         stinky.next_attacks = []
         #Get the next attacks, we need a turn one case. I'm sure there is a way to do it with the loop but im fried and cant think
-        print("TURN COUNT" + str(stinky.turn_count))
+        print("TURN COUNT: " + str(stinky.turn_count))
         if stinky.turn_count == 1:
             dice_result = roll()
             stinky.next_attacks.append(dice_result)
@@ -66,7 +67,7 @@ if __name__ == "__main__":
             stinky.next_attacks.append(dice_result)
         #If turn one, no attack- no need to tell the player there will be an attack if there actually won't be one
         if stinky.turn_count != 1:
-            print(f"""THE BOSS ATTACKS!
+            print(f"""\n\nTHE BOSS ATTACKS!
                 {stinky.text_result}
             """)
         #Alert the player about next attacks
