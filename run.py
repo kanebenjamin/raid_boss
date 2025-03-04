@@ -22,7 +22,7 @@ if __name__ == "__main__":
     #TODO add a phase two event that only triggers once somehow
     BOSS_HEALTH = stinky.health
     EVENT_TRIGGER_AMOUNT = BOSS_HEALTH/2
-    TRIGGER_FLAG = False
+    trigger = True
     #There's probably a better way to do this.. but I'm adding all boss funcs to a list and then snagging them via die result in the main loop
     boss_funcs = [stinky.two, stinky.three, stinky.four, 
                   stinky.five, stinky.six, stinky.seven,
@@ -31,6 +31,10 @@ if __name__ == "__main__":
                 ]
     #Main loop, keep doing this shit until boss has died or players have died
     while stinky.health > 0:
+        #Check for event
+        if stinky.health <= EVENT_TRIGGER_AMOUNT and trigger:
+            print("The boss unleashes a hellish energy...")
+            trigger = False
         #Need loop for each player
         for i in range(0, stinky.player_count):
             try:
