@@ -31,7 +31,7 @@ if __name__ == "__main__":
                 ]
     #Main loop, keep doing this shit until boss has died or players have died
     while stinky.health > 0:
-        #Check for event
+        #Check for half health event
         if stinky.health <= EVENT_TRIGGER_AMOUNT and trigger:
             print("The boss unleashes a hellish energy...")
             trigger = False
@@ -52,23 +52,21 @@ if __name__ == "__main__":
             break
 
         num_boss_rolls = math.floor(stinky.turn_count/2)
-        print("The boss gets " + str(num_boss_rolls) + " roll(s) this turn! Brace yourself!")
-        print("INFO>DEBUG> " + str(stinky.next_attacks))
-        if not stinky.next_attacks:
+        next_num_boss_rolls = math.floor(stinky.turn_count/2) + 1
+        if num_boss_rolls == 0:
             print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
-        for num in stinky.next_attacks:
+        #Get current attacks
+        for num in stinky.current_attacks:
+            dice_result = roll()
             stinky.text_result += "\n" + str(boss_funcs[num]()) + "\n"
+        #Reset current attacks to be set later on
+        stinky.current_attacks = []
+        #Get next attacks
+        for i in range (0, next_num_boss_rolls):
+            stinky.next_attacks.append(roll())
 
-        #Reset next attacks for usage in subsequent loop
-        stinky.next_attacks = []
-        #Get the next attacks, we need a turn one case. I'm sure there is a way to do it with the loop but im fried and cant think
+        print("The boss gets " + str(num_boss_rolls) + " roll(s) this turn! Brace yourself!")
         print("TURN COUNT: " + str(stinky.turn_count))
-        if stinky.turn_count == 1:
-            dice_result = roll()
-            stinky.next_attacks.append(dice_result)
-        for i in range(0, num_boss_rolls):
-            dice_result = roll()
-            stinky.next_attacks.append(dice_result)
         #If turn one, no attack- no need to tell the player there will be an attack if there actually won't be one
         if stinky.turn_count != 1:
             print(f"""\n\nTHE BOSS ATTACKS!
@@ -76,7 +74,11 @@ if __name__ == "__main__":
             """)
         #Alert the player about next attacks
         #print("NEXT ROLLS " + str(stinky.next_attacks))
+        print("Arcane intuition tells you...")
         print(stinky.get_attack_hint(stinky.next_attacks))
+        #Reset next attacks for usage in subsequent loop - set to be current attacks
+        stinky.current_attacks = stinky.next_attacks
+        stinky.next_attacks = []
 
         try:
             death_count = int(input("How many players were defeated this turn? (enter 0 if no one was defeated) > "))

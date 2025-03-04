@@ -13,6 +13,7 @@ class RaidBoss1(object):
         self.turn_count = 1
         self.text_result = ""
         self.next_attacks = []
+        self.current_attacks = []
 
 
     def two(self):
