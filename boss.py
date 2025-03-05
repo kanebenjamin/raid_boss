@@ -115,7 +115,7 @@ class HorrorfromtheDepths(Boss):
         Curse of Sinking with "Whenever you gain life, mill that many cards."""
         
     def four(self):
-        return f"""BOSS SPELL> Return {self.player_count * 3} nonland, nontoken permanents to their owner's hands."""
+        return f"""BOSS SPELL> Return {self.player_count * 1} nonland, nontoken permanents to their owner's hands."""
 
     def five(self):
         return f"""BOSS SPELL> For each player, create a blue enchantment token named
@@ -127,7 +127,7 @@ class HorrorfromtheDepths(Boss):
         One token attacks each player this combat."""
 
     def seven(self):
-        return f"""BOSS SPELL> Create {self.player_count * 2} blue jellyfish creature tokens with first strike, decayed, haste and 
+        return f"""BOSS SPELL> Create {self.player_count * 2} 1/1 blue jellyfish creature tokens with first strike, decayed, haste and 
         "When this creature deals combat damage to a player, that player chooses an untapped creature they control, taps it
         and puts a stun counter on it." Two tokens attack each player this combat."""
 
@@ -140,7 +140,7 @@ class HorrorfromtheDepths(Boss):
         "Whenever you draw one or more cards, mill that many cards."""
     
     def ten(self):
-        return f"""BOSS SPELL> Return {self.player_count * 3} nonland, nontoken permanents to their owner's hands."""
+        return f"""BOSS SPELL> Return {self.player_count * 1} nonland, nontoken permanents to their owner's hands."""
     
     def eleven(self):
         return """BOSS SPELL> For each player, create a blue enchantment token named Curse of Sinking with 
