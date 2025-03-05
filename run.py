@@ -10,15 +10,30 @@ DICE_ROLL = [0,1,2,3,4,5]
 def roll():
     return random.choice(DICE_ROLL) + random.choice(DICE_ROLL) 
 
+#preroll 100 turns of boss actions, save as a list of lists to reference in while loop
+store_prerolls = []
+for i in range(100):
+    innerlist = []
+    reps = math.floor(0.5 * i)
+    for ii in range(reps):
+        innerlist.append(roll())
+    store_prerolls.append(innerlist)
+
 if __name__ == "__main__":
+    
     #Some initial player input to set up the game. We need number of players and a name for the raid boss
     num_players = int(input("Welcome to Raid Boss! How many people are playing? > "))
+    
     boss_name = str(input(f"Ahh! Welcome to the dungeon, ye {num_players} brave wizard(s)! Who have you come here to slay? > "))
+    
     print(f"\nHere comes {boss_name} now! Prepare thyselves for a whimsical battle! Best of luck!")
+    
     #Unsure if doing this yet lol
     #print("If at any time you need a list of commands, type 'help' and I will give them to you!")
+    
     #Instantiate the boss
     stinky = boss.RaidBoss1(player_count=num_players, boss_name=boss_name)
+    
     #TODO add a phase two event that only triggers once somehow
     BOSS_HEALTH = stinky.health
     EVENT_TRIGGER_AMOUNT = BOSS_HEALTH/2
@@ -29,6 +44,7 @@ if __name__ == "__main__":
                   stinky.eight, stinky.nine, stinky.ten,
                   stinky.eleven, stinky.twelve
                 ]
+    
     #Main loop, keep doing this shit until boss has died or players have died
     while stinky.health > 0:
         #Check for half health event
@@ -51,24 +67,18 @@ if __name__ == "__main__":
         if stinky.health <= 0:
             break
 
-        num_boss_rolls = math.floor(stinky.turn_count/2)
-        next_num_boss_rolls = math.floor(stinky.turn_count/2) + 1
-        # print("ROLLS")
-        # print(num_boss_rolls)
-        # print(next_num_boss_rolls)
-        if num_boss_rolls == 0:
-            print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
-        #Get current attacks
-        for num in stinky.current_attacks:
-            dice_result = roll()
-            stinky.text_result += "\n" + str(boss_funcs[num]()) + "\n"
-        #Reset current attacks to be set later on
-        stinky.current_attacks = []
-        #Get next attacks
-        for i in range (0, next_num_boss_rolls):
-            stinky.next_attacks.append(roll())
+        # set attack lists
+        stinky.current_attacks = store_prerolls[stinky.turn_count]
+        stinky.next_attacks    = store_prerolls[stinky.turn_count + 1]
 
-        print("The boss gets " + str(num_boss_rolls) + " roll(s) this turn! Brace yourself!")
+        # attack logic
+        if len(store_prerolls[stinky.turn_count]) == 0:
+            print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
+        for num in stinky.current_attacks:
+            stinky.text_result += "\n" + str(boss_funcs[num]()) + "\n"
+            
+        #Get next attacks
+        print("The boss gets " + str(len(stinky.current_attacks)) + " roll(s) this turn! Brace yourself!")
         print("TURN COUNT: " + str(stinky.turn_count))
         #If turn one, no attack- no need to tell the player there will be an attack if there actually won't be one
         if stinky.turn_count != 1:
@@ -76,12 +86,9 @@ if __name__ == "__main__":
                 {stinky.text_result}
             """)
         #Alert the player about next attacks
-        #print("NEXT ROLLS " + str(stinky.next_attacks))
         print("Arcane intuition tells you...")
         print(stinky.get_attack_hint(stinky.next_attacks))
         #Reset next attacks for usage in subsequent loop - set to be current attacks
-        stinky.current_attacks = stinky.next_attacks
-        stinky.next_attacks = []
 
         try:
             death_count = int(input("How many players were defeated this turn? (enter 0 if no one was defeated) > "))
