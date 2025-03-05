@@ -53,6 +53,9 @@ if __name__ == "__main__":
 
         num_boss_rolls = math.floor(stinky.turn_count/2)
         next_num_boss_rolls = math.floor(stinky.turn_count/2) + 1
+        # print("ROLLS")
+        # print(num_boss_rolls)
+        # print(next_num_boss_rolls)
         if num_boss_rolls == 0:
             print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
         #Get current attacks

@@ -1,6 +1,18 @@
 import random
 
-class RaidBoss1(object):
+class Boss(object):
+
+    def __init__(self, boss_name="", player_count=4, poison=0):
+        self.boss_name = boss_name
+        self.player_count = player_count
+        self.health = player_count * self.BASE_HEALTH
+        self.poison = 0
+        self.turn_count = 1
+        self.text_result = ""
+        self.next_attacks = []
+        self.current_attacks = []
+
+class RaidBoss1(Boss):
 
     result_text = ""
     BASE_HEALTH = 250
@@ -41,12 +53,14 @@ One token attacks each player this combat."""
 
     def eight(self):
         return f"""BOSS SPELL> Create {self.player_count * 2} 2/2 blue drake zombie creature token with flying, decayed, and haste. 
-One token attacks each player this combat."""
+Two token attacks each player this combat."""
 
     def nine(self):
         return f"""BOSS SPELL> Players sacrifice {self.player_count} nonland, non-token permanents divided between players."""
     
     def ten(self):
+        self.health += self.player_count * 4
+        print(f"Boss heals {self.player_count * 4}!")
         return f"""BOSS SPELL> Create {self.player_count * 4} 1/1 white cleric zombie creature tokens with lifelink, decayed, 
 and haste. Four tokens attack each player this combat."""
     
@@ -79,3 +93,10 @@ control with 'At the beginning of your end step, you lose 3 life unless you pay 
                 if HEAL_TEXT not in result:
                     result.append(HEAL_TEXT)
         return " ".join(result) + "\n"
+    
+class BlueBoss(Boss):
+
+    def __init__(self):
+        pass
+
+
