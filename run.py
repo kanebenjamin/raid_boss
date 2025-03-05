@@ -33,7 +33,9 @@ if __name__ == "__main__":
     
     #Instantiate the boss #TODO Add random boss option or ask player what boss they would like to fight
     boss_list = [boss.TheManaGod, boss.HorrorfromtheDepths]
-    stinky = boss.TheManaGod(player_count=num_players, boss_name=boss_name)
+    #stinky = boss.TheManaGod(player_count=num_players, boss_name=boss_name)
+    stinky = boss.HorrorfromtheDepths(player_count=num_players, boss_name=boss_name)
+
     
     #TODO add a phase two event that only triggers once somehow
     BOSS_HEALTH = stinky.health
