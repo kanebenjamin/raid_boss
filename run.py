@@ -31,8 +31,9 @@ if __name__ == "__main__":
     #Unsure if doing this yet lol
     #print("If at any time you need a list of commands, type 'help' and I will give them to you!")
     
-    #Instantiate the boss
-    stinky = boss.RaidBoss1(player_count=num_players, boss_name=boss_name)
+    #Instantiate the boss #TODO Add random boss option or ask player what boss they would like to fight
+    boss_list = [boss.TheManaGod, boss.HorrorfromtheDepths]
+    stinky = boss.TheManaGod(player_count=num_players, boss_name=boss_name)
     
     #TODO add a phase two event that only triggers once somehow
     BOSS_HEALTH = stinky.health
