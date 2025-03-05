@@ -60,9 +60,8 @@ Two token attacks each player this combat."""
     
     def ten(self):
         self.health += self.player_count * 4
-        print(f"Boss heals {self.player_count * 4}!")
-        return f"""BOSS SPELL> Create {self.player_count * 4} 1/1 white cleric zombie creature tokens with lifelink, decayed, 
-and haste. Four tokens attack each player this combat."""
+        return f"""BOSS SPELL> Create {self.player_count * 4} 1/1 white cleric zombie creature tokens with 'enters' lifelink (this lifegain cannot be prevented), decayed, 
+and haste. Four tokens attack each player this combat. Boss heals {self.player_count * 4} from the clerics!"""
     
     def eleven(self):
         return """BOSS SPELL> For each player, create a colorless artifact token named Altar of Bleeding under their 
