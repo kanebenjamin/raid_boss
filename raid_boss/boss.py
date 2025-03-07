@@ -1,5 +1,6 @@
 import random
 
+
 class Boss(object):
 
     result_text = ""
@@ -15,6 +16,7 @@ class Boss(object):
         self.next_attacks = []
         self.current_attacks = []
 
+
 class TheManaGod(Boss):
 
     def __init__(self, boss_name="", player_count=4, poison=0):
@@ -27,7 +29,6 @@ class TheManaGod(Boss):
         self.next_attacks = []
         self.current_attacks = []
 
-
     def two(self):
         return """BOSS SPELL> Each player chooses three: sacrifice all creatures you control, sacrifice all enchantments you control, 
 sacrifice all artifacts you control, exile your graveyard. Boss permanents cannot be sacrificed this way."""
@@ -35,7 +36,7 @@ sacrifice all artifacts you control, exile your graveyard. Boss permanents canno
     def three(self):
         return """BOSS SPELL> For each player, create a colorless Boss enchantment token named Curse of Confusion under their control with 
 “At the beginning of your end step, choose one: sacrifice a permanent, discard a card, or mill 5."""
-        
+
     def four(self):
         return f"""BOSS SPELL> Create {self.player_count * 4} 1/1 red goblin zombie creature tokens with first strike, decayed, and haste.
  Four tokens attack each player this combat."""
@@ -57,29 +58,28 @@ Two token attacks each player this combat."""
 
     def nine(self):
         return f"""BOSS SPELL> Players sacrifice {self.player_count} nonland, non-token permanents divided between players."""
-    
+
     def ten(self):
         self.health += self.player_count * 4
         return f"""BOSS SPELL> Create {self.player_count * 4} 1/1 white cleric zombie creature tokens with 'enters' lifelink (this lifegain cannot be prevented), decayed, 
 and haste. Four tokens attack each player this combat. Boss heals {self.player_count * 4} from the clerics!"""
-    
+
     def eleven(self):
         return """BOSS SPELL> For each player, create a colorless artifact token named Altar of Bleeding under their 
 control with 'At the beginning of your end step, you lose 3 life unless you pay 2.'"""
-    
+
     def twelve(self):
         self.health += self.player_count * 20
         return f"""BOSS SPELL> {self.boss_name} heals {self.player_count * 20}
 {self.boss_name}'s health is now {self.health}!"""
-    
-    
+
     def get_attack_hint(self, num_list):
         result = []
         CHANNEL_TEXT = "The boss is channeling energy!  "
         ATTACK_TEXT = "The boss is amassing armies!  "
         HEAL_TEXT = "The boss is about to heal!  "
-        CHANNEL_LIST = [0,1,3,7,9]
-        ATTACK_LIST = [2,4,5,6,8]
+        CHANNEL_LIST = [0, 1, 3, 7, 9]
+        ATTACK_LIST = [2, 4, 5, 6, 8]
         HEAL_LIST = [10]
         for num in num_list:
             if num in CHANNEL_LIST:
@@ -92,9 +92,11 @@ control with 'At the beginning of your end step, you lose 3 life unless you pay 
                 if HEAL_TEXT not in result:
                     result.append(HEAL_TEXT)
         return " ".join(result) + "\n"
-    
-#BOSS 2
-    
+
+
+# BOSS 2
+
+
 class HorrorfromtheDepths(Boss):
 
     def __init__(self, boss_name="", player_count=4, poison=0):
@@ -113,7 +115,7 @@ class HorrorfromtheDepths(Boss):
     def three(self):
         return """BOSS SPELL> For each player, create a blue enchantment token named
         Curse of Sinking with "Whenever you gain life, mill that many cards."""
-        
+
     def four(self):
         return f"""BOSS SPELL> Return {self.player_count * 1} nonland, nontoken permanents to their owner's hands."""
 
@@ -138,26 +140,27 @@ class HorrorfromtheDepths(Boss):
     def nine(self):
         return f"""BOSS SPELL> For each player, create a blue enchantment token named Curse of Rising Tides with
         "Whenever you draw one or more cards, mill that many cards."""
-    
+
     def ten(self):
         return f"""BOSS SPELL> Return {self.player_count * 1} nonland, nontoken permanents to their owner's hands."""
-    
+
     def eleven(self):
         return """BOSS SPELL> For each player, create a blue enchantment token named Curse of Sinking with 
         "Whenever you gain life, mill that many cards."""
-    
+
     def twelve(self):
         return f"""BOSS SPELL> Return all nonland, non-boss permanents to their owner's hands."""
-    
-    
+
     def get_attack_hint(self, num_list):
         result = []
-        RECOIL_TEXT = "The Horror recoils as it prepares to unleash a massive tidal wave. "
+        RECOIL_TEXT = (
+            "The Horror recoils as it prepares to unleash a massive tidal wave. "
+        )
         CHANNEL_TEXT = "The Horror is channeling dark energies. "
         ATTACK_TEXT = "The Horror is summoning beasts from the depths. "
-        CHANNEL_LIST = [1,2,3,7,8,9]
-        ATTACK_LIST = [4,5,6]
-        RECOIL_LIST = [0,10]
+        CHANNEL_LIST = [1, 2, 3, 7, 8, 9]
+        ATTACK_LIST = [4, 5, 6]
+        RECOIL_LIST = [0, 10]
         for num in num_list:
             if num in CHANNEL_LIST:
                 if CHANNEL_TEXT not in result:
@@ -169,5 +172,3 @@ class HorrorfromtheDepths(Boss):
                 if RECOIL_TEXT not in result:
                     result.append(RECOIL_TEXT)
         return " ".join(result) + "\n"
-
-

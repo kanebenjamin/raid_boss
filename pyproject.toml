@@ -1,0 +1,41 @@
+[project]
+name = "raid-boss"
+version = "0.1.0"
+description = "Welcome to RAID BOSS! An interavtive way to cooperatively play commander!"
+authors = [
+    {name = "Kane Benjamin",email = "KaneBenjamin17@gmail.com"}
+]
+readme = "README.txt"
+requires-python = ">=3.12"
+dependencies = [
+    "kivy (>=2.3.1,<3.0.0)"
+]
+
+[tool.poetry.group.dev.dependencies]
+kivy = "^2.3.1"
+black = "^25.1.0"
+
+[tool.poetry]
+package-mode = false
+
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
