@@ -35,8 +35,8 @@ if __name__ == "__main__":
         f"\nHere comes {boss_name} now! Prepare thyselves for a whimsical battle! Best of luck!"
     )
 
-    boss_list = [boss.TheManaGod, boss.HorrorfromtheDepths]
-    stinky = boss.HorrorfromtheDepths(player_count=num_players, boss_name=boss_name)
+    boss_list = [boss.TheManaGod, boss.HorrorfromtheDepths, boss.LunarChanneler]
+    stinky = boss.LunarChanneler(player_count=num_players, boss_name=boss_name)
 
     BOSS_HEALTH = stinky.health
     EVENT_TRIGGER_AMOUNT = BOSS_HEALTH / 2
