@@ -41,6 +41,8 @@ class RaidBossApp(App):
         self.stinky = None
         self.store_prerolls = self.preroll_boss_actions()
         self.phase = 0
+        #Need to set label on startup to ask for number of players
+        self.output.text += f"Welcome to Raid Boss! How many people are playing? > \n"
 
         return self.root
 
@@ -64,9 +66,8 @@ class RaidBossApp(App):
 
         if self.phase == 0:
             self.num_players = int(user_input)
-            self.output.text += (
-                f"Welcome to Raid Boss! {self.num_players} players are playing.\n"
-            )
+            self.output.text += f"Wonderful! {self.num_players} player(s) are ready to sling some spells!\n"
+            
             self.output.text += "Who have you come here to slay? > "
             self.phase = 1
         elif self.phase == 1:
