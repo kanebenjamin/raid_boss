@@ -19,9 +19,9 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from raid_boss import boss
-from .game_state import GameState
-from .ui_components import GameInterface
-from .game_logic import GameLogic
+from game_state import GameState
+from ui_components import GameInterface
+from game_logic import GameLogic
 
 
 class RaidBossApp(App):

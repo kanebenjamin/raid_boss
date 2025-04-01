@@ -1,14 +1,16 @@
 from dataclasses import dataclass
 from typing import List, Optional
-from . import boss
 import math
 import random
+
+from boss import Boss, TheManaGod, HorrorfromtheDepths, LunarChanneler
+
 
 @dataclass
 class GameState:
     num_players: int = 0
     boss_name: str = ""
-    boss: Optional[boss.Boss] = None
+    boss: Optional[Boss] = None
     phase: int = 0
     store_prerolls: List[List[int]] = None
     defeated_players: int = 0
@@ -33,17 +35,17 @@ class GameState:
 
     def initialize_boss(self, boss_type: str) -> None:
         if boss_type == "1":
-            self.boss = boss.TheManaGod(
+            self.boss = TheManaGod(
                 player_count=self.num_players, 
                 boss_name=self.boss_name
             )
         elif boss_type == "2":
-            self.boss = boss.HorrorfromtheDepths(
+            self.boss = HorrorfromtheDepths(
                 player_count=self.num_players, 
                 boss_name=self.boss_name
             )
         elif boss_type == "3":
-            self.boss = boss.LunarChanneler(
+            self.boss = LunarChanneler(
                 player_count=self.num_players, 
                 boss_name=self.boss_name
             )

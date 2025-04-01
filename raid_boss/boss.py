@@ -20,14 +20,20 @@ class Boss(object):
 class TheManaGod(Boss):
 
     def __init__(self, boss_name="", player_count=4, poison=0):
-        self.boss_name = boss_name
-        self.player_count = player_count
-        self.health = player_count * self.BASE_HEALTH
-        self.poison = 0
-        self.turn_count = 1
-        self.text_result = ""
-        self.next_attacks = []
-        self.current_attacks = []
+        super().__init__(boss_name, player_count, poison)
+        self.boss_funcs = {
+            0: self.two,
+            1: self.three,
+            2: self.four,
+            3: self.five,
+            4: self.six,
+            5: self.seven,
+            6: self.eight,
+            7: self.nine,
+            8: self.ten,
+            9: self.eleven,
+            10: self.twelve
+        }
 
     def two(self):
         return """BOSS SPELL> Each player chooses three: sacrifice all creatures you control, sacrifice all enchantments you control, 
@@ -35,7 +41,7 @@ sacrifice all artifacts you control, exile your graveyard. Boss permanents canno
 
     def three(self):
         return """BOSS SPELL> For each player, create a colorless Boss enchantment token named Curse of Confusion under their control with 
-“At the beginning of your end step, choose one: sacrifice a permanent, discard a card, or mill 5."""
+"At the beginning of your end step, choose one: sacrifice a permanent, discard a card, or mill 5."""
 
     def four(self):
         return f"""BOSS SPELL> Create {self.player_count * 4} 1/1 red goblin zombie creature tokens with first strike, decayed, and haste.
@@ -100,14 +106,20 @@ control with 'At the beginning of your end step, you lose 3 life unless you pay 
 class HorrorfromtheDepths(Boss):
 
     def __init__(self, boss_name="", player_count=4, poison=0):
-        self.boss_name = boss_name
-        self.player_count = player_count
-        self.health = player_count * self.BASE_HEALTH
-        self.poison = 0
-        self.turn_count = 1
-        self.text_result = ""
-        self.next_attacks = []
-        self.current_attacks = []
+        super().__init__(boss_name, player_count, poison)
+        self.boss_funcs = {
+            0: self.two,
+            1: self.three,
+            2: self.four,
+            3: self.five,
+            4: self.six,
+            5: self.seven,
+            6: self.eight,
+            7: self.nine,
+            8: self.ten,
+            9: self.eleven,
+            10: self.twelve
+        }
 
     def two(self):
         return """BOSS SPELL> Return all nonland, non-boss permanents to their owner's hands."""
@@ -177,22 +189,28 @@ class HorrorfromtheDepths(Boss):
 class LunarChanneler(Boss):
 
     def __init__(self, boss_name="", player_count=4, poison=0):
-        self.boss_name = boss_name
-        self.player_count = player_count
-        self.health = (self.BASE_HEALTH - 200) * player_count
-        self.poison = 0
-        self.turn_count = 1
-        self.text_result = ""
-        self.next_attacks = []
-        self.current_attacks = []
+        super().__init__(boss_name, player_count, poison)
+        self.boss_funcs = {
+            0: self.two,
+            1: self.three,
+            2: self.four,
+            3: self.five,
+            4: self.six,
+            5: self.seven,
+            6: self.eight,
+            7: self.nine,
+            8: self.ten,
+            9: self.eleven,
+            10: self.twelve
+        }
 
     def two(self):
-        return f"""BOSS SPELL> create {self.player_count * 1}  X/X Spirit Zombie Cleric with “when this creature attacks, tap target creature defending player controls at random”
+        return f"""BOSS SPELL> create {self.player_count * 1}  X/X Spirit Zombie Cleric with "when this creature attacks, tap target creature defending player controls at random"
         where X is the total number of cards in all graveyards with haste, decayed, menace. 1 token attacks each player this combat. """
 
     def three(self):
-        return """BOSS SPELL> Lunar Channeler creates “Moon’s Presence” an enchantment aura with “enchant player. 
-        Lunar Light Soldier creatures the boss controls gain +1/+1 for each Aura attached to players.” Randomly attach it to a player."""
+        return """BOSS SPELL> Lunar Channeler creates "Moon's Presence" an enchantment aura with "enchant player. 
+        Lunar Light Soldier creatures the boss controls gain +1/+1 for each Aura attached to players." Randomly attach it to a player."""
 
     def four(self):
         return f"""BOSS SPELL> Create {self.player_count * 3} Lunar Light Soldiers with haste and decayed. 3 tokens attack each player this combat."""
@@ -201,22 +219,22 @@ class LunarChanneler(Boss):
         return f"""BOSS SPELL> create {self.player_count * 2} 1/1 Lunar Light Soldiers with decayed and haste"""
 
     def six(self):
-        return f"""BOSS SPELL> Lunar Channeler creates “Curse of the full Moon” an enchantment with “enchant player. 
-        Enchanted player’s creatures get -X/0 where X is the number of cards in enchanted players hand.” Randomly attach it to a player."""
+        return f"""BOSS SPELL> Lunar Channeler creates "Curse of the full Moon" an enchantment with "enchant player. 
+        Enchanted player's creatures get -X/0 where X is the number of cards in enchanted players hand." Randomly attach it to a player."""
 
     def seven(self):
-        return f"""BOSS SPELL> Make a Pumpkin Totem artifact enchantment token with “enchant player. at your end step the boss heals 5.” Randomly attach it to a player. """
+        return f"""BOSS SPELL> Make a Pumpkin Totem artifact enchantment token with "enchant player. at your end step the boss heals 5." Randomly attach it to a player. """
 
     def eight(self):
-        return f"""BOSS SPELL> Lunar Channeler creates “Moon’s Watcher” an enchantment with “enchant player. 
+        return f"""BOSS SPELL> Lunar Channeler creates "Moon's Watcher" an enchantment with "enchant player. 
         Whenever enchanted player attacks with one or more creatures, this enchantment becomes a 0/1 indestructible white Lunar Statue. 
-        It gains “this creature blocks the creature with the highest power among attacking creatures.” Randomly attach it to a player."""
+        It gains "this creature blocks the creature with the highest power among attacking creatures." Randomly attach it to a player."""
 
     def nine(self):
         return f"""BOSS SPELL> create {self.player_count * 2} white Lunar Light Soldiers with haste and decayed."""
 
     def ten(self):
-        return f"""BOSS SPELL> Create {self.player_count * 1} white and blue Moon’s Disciple an X/X Spirit with decayed, haste and flying and this creature gets +1/+1 where X is the number of turns the boss has taken (including this one).."""
+        return f"""BOSS SPELL> Create {self.player_count * 1} white and blue Moon's Disciple an X/X Spirit with decayed, haste and flying and this creature gets +1/+1 where X is the number of turns the boss has taken (including this one).."""
 
     def eleven(self):
         return f"""BOSS SPELL> create {self.player_count * 3} white Lunar Light Soldiers with haste and decayed. 3 tokens attach each player this combat."""

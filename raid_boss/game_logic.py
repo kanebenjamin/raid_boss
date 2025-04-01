@@ -1,6 +1,6 @@
 from typing import Optional
-from .game_state import GameState
-from .ui_components import GameOutput
+from game_state import GameState
+from ui_components import GameOutput
 
 class GameLogic:
     def __init__(self, game_state: GameState, output: GameOutput):
