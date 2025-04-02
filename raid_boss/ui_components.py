@@ -11,20 +11,11 @@ from kivy.resources import resource_find
 from typing import List, Optional
 import os
 from dataclasses import dataclass
-from enum import Enum, auto
+from raid_boss.game_text import GameTextManager, GameText, TextType
 
 # Get the path to the fonts directory in the root of the repo
 FONT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fonts")
 FONT_PATH = os.path.join(FONT_DIR, "Beleren2016-Bold.ttf")  # Replace with your font filename
-
-
-class TextType(Enum):
-    GAME_STATE = auto()
-    BOSS_ATTACK = auto()
-    PLAYER_ACTION = auto()
-    ERROR = auto()
-    PROMPT = auto()
-
 
 @dataclass
 class GameText:
@@ -32,58 +23,6 @@ class GameText:
     text_type: TextType
     timestamp: float
     priority: int = 0  # Higher priority text appears first
-
-
-class GameTextManager:
-    def __init__(self):
-        self.text_buffer: List[GameText] = []
-        self.max_buffer_size = 1000  # Prevent memory issues with very long games
-        self._output_callback = None
-
-    def set_output_callback(self, callback):
-        """Set the callback function to update the UI when text changes."""
-        self._output_callback = callback
-
-    def add_text(self, content: str, text_type: TextType, priority: int = 0) -> None:
-        """Add new text to the buffer and update the display."""
-        from time import time
-
-        new_text = GameText(content=content, text_type=text_type, timestamp=time(), priority=priority)
-        self.text_buffer.append(new_text)
-
-        # Keep buffer size manageable
-        if len(self.text_buffer) > self.max_buffer_size:
-            self.text_buffer = self.text_buffer[-self.max_buffer_size :]
-
-        # Update display
-        self._update_display()
-
-    def clear(self) -> None:
-        """Clear all text from the buffer."""
-        self.text_buffer.clear()
-        self._update_display()
-
-    def _update_display(self) -> None:
-        """Update the display with formatted text."""
-        if self._output_callback is None:
-            return
-
-        # Sort text by timestamp (oldest first) to maintain chronological order
-        sorted_text = sorted(self.text_buffer, key=lambda x: x.timestamp)
-
-        # Format text with appropriate spacing and styling
-        formatted_text = ""
-        for text in sorted_text:
-            if text.text_type == TextType.ERROR:
-                formatted_text += f"{text.content}\n\n"
-            elif text.text_type == TextType.BOSS_ATTACK:
-                formatted_text += f"{text.content}\n\n"
-            elif text.text_type == TextType.PROMPT:
-                formatted_text += f"{text.content}\n"
-            else:
-                formatted_text += f"{text.content}\n\n"
-
-        self._output_callback(formatted_text)
 
 
 class GameOutput(Label):

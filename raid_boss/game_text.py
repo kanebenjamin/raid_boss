@@ -1,7 +1,13 @@
 from dataclasses import dataclass
 from typing import Dict, Any, List
-from raid_boss.ui_components import TextType
+from enum import Enum, auto
 
+class TextType(Enum):
+    GAME_STATE = auto()
+    BOSS_ATTACK = auto()
+    PLAYER_ACTION = auto()
+    ERROR = auto()
+    PROMPT = auto()
 
 @dataclass
 class GameText:
@@ -51,16 +57,16 @@ class GameTextManager:
         sorted_text = sorted(self.text_buffer, key=lambda x: x.timestamp)
 
         # Format text with appropriate spacing and styling
+        format_map = {
+            TextType.ERROR: lambda t: f"{t.content}\n\n",
+            TextType.BOSS_ATTACK: lambda t: f"{t.content}\n\n",
+            TextType.PROMPT: lambda t: f"{t.content}\n",
+        }
+        
         formatted_text = ""
         for text in sorted_text:
-            if text.text_type == TextType.ERROR:
-                formatted_text += f"{text.content}\n\n"
-            elif text.text_type == TextType.BOSS_ATTACK:
-                formatted_text += f"{text.content}\n\n"
-            elif text.text_type == TextType.PROMPT:
-                formatted_text += f"{text.content}\n"
-            else:
-                formatted_text += f"{text.content}\n\n"
+            formatter = format_map.get(text.text_type, lambda t: f"{t.content}\n\n")
+            formatted_text += formatter(text)
 
         self._output_callback(formatted_text)
 

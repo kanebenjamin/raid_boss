@@ -19,14 +19,10 @@ class GameState:
         self.store_prerolls = self._preroll_boss_actions()
 
     def _preroll_boss_actions(self) -> List[List[int]]:
-        store_prerolls = []
-        for i in range(100):
-            innerlist = []
-            reps = math.floor(0.5 * i)
-            for _ in range(reps):
-                innerlist.append(self._roll())
-            store_prerolls.append(innerlist)
-        return store_prerolls
+        return [
+            [self._roll() for _ in range(math.floor(0.5 * i))]
+            for i in range(100)
+        ]
 
     @staticmethod
     def _roll() -> int:
@@ -34,12 +30,13 @@ class GameState:
         return random.choice(DICE_ROLL) + random.choice(DICE_ROLL)
 
     def initialize_boss(self, boss_type: str) -> None:
-        if boss_type == "1":
-            self.boss = TheManaGod(player_count=self.num_players, boss_name=self.boss_name)
-        elif boss_type == "2":
-            self.boss = HorrorfromtheDepths(player_count=self.num_players, boss_name=self.boss_name)
-        elif boss_type == "3":
-            self.boss = LunarChanneler(player_count=self.num_players, boss_name=self.boss_name)
+        boss_map = {
+            "1": TheManaGod,
+            "2": HorrorfromtheDepths,
+            "3": LunarChanneler
+        }
+        if boss_type in boss_map:
+            self.boss = boss_map[boss_type](player_count=self.num_players, boss_name=self.boss_name)
 
     def process_damage(self, damage: int) -> None:
         if self.boss:

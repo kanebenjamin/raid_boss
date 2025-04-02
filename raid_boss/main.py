@@ -51,19 +51,18 @@ class RaidBossApp(App):
     def on_enter(self, instance):
         """Handle text input validation."""
         # Process input through game logic
-        if self.game_state.phase == 0:
-            self.game_logic.handle_player_count(instance.text)
-        elif self.game_state.phase == 1:
-            self.game_logic.handle_boss_name(instance.text)
-        elif self.game_state.phase == 2:
-            self.game_logic.handle_boss_selection(instance.text)
-        elif self.game_state.phase == 3:
-            self.game_logic.handle_player_damage(instance.text)
-        elif self.game_state.phase == 5:
-            self.game_logic.handle_defeated_players(instance.text)
-        elif self.game_state.phase == 6:
-            # Exit the game when any input is received after game over
-            App.get_running_app().stop()
+        phase_handlers = {
+            0: self.game_logic.handle_player_count,
+            1: self.game_logic.handle_boss_name,
+            2: self.game_logic.handle_boss_selection,
+            3: self.game_logic.handle_player_damage,
+            5: self.game_logic.handle_defeated_players,
+            6: lambda _: App.get_running_app().stop()
+        }
+        
+        handler = phase_handlers.get(self.game_state.phase)
+        if handler:
+            handler(instance.text)
 
         # Clear input box
         instance.text = ""
