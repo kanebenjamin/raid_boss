@@ -30,53 +30,59 @@ class GameOutput(Label):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self._setup_label_properties()
+        self._setup_font()
+        self._setup_background()
+        self._scroll_view = None
+        self.bind(pos=self._update_rect, size=self._update_rect)
+
+    def _setup_label_properties(self):
+        """Set up basic label properties."""
         self.size_hint_y = None
         self.text_size = (None, None)
         self.halign = "left"
         self.valign = "bottom"
         self.bind(text=self._on_text_change)
-        self._scroll_view = None
         self.color = (1, 1, 1, 1)
         self.padding = [10, 10, 10, 10]
         self.text_size = (self.width, None)
-        self.limit_render_to_text_bbox = False  # Allow text to expand beyond visible area
-        self.markup = True  # Enable markup for color tags
+        self.limit_render_to_text_bbox = False
+        self.markup = True
 
-        # Set custom font
+    def _setup_font(self):
+        """Set up custom font if available."""
         if os.path.exists(FONT_PATH):
             self.font_name = FONT_PATH
         else:
             self.font_name = "RobotoMono"
             print(f"Warning: Custom font not found at {FONT_PATH}. Using system font.")
 
-        # Add dark background
+    def _setup_background(self):
+        """Set up dark background."""
         with self.canvas.before:
             Color(0.1, 0.1, 0.1, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
 
-        self.bind(pos=self._update_rect, size=self._update_rect)
+    def _format_text(self, content: str, text_type: TextType) -> str:
+        """Format text based on type with appropriate color."""
+        color_map = {
+            TextType.ERROR: "ff4444",
+            TextType.BOSS_ATTACK: "ffaa00",
+            TextType.PROMPT: "44ff44"
+        }
+        color = color_map.get(text_type, "ffffff")
+        return f"[color={color}]{content}[/color]"
 
     def _update_text(self, new_text: str) -> None:
         """Update the text property with new content."""
         self.text = new_text
-        # Schedule scroll to bottom after text update
         Clock.schedule_once(self._scroll_to_bottom, 0.1)
 
     def add_text(self, content: str, text_type: TextType, priority: int = 0) -> None:
         """Add new text to the output."""
-        # Format the text based on type
-        if text_type == TextType.ERROR:
-            formatted_text = f"[color=ff4444]{content}[/color]\n\n"
-        elif text_type == TextType.BOSS_ATTACK:
-            formatted_text = f"[color=ffaa00]{content}[/color]\n\n"
-        elif text_type == TextType.PROMPT:
-            formatted_text = f"[color=44ff44]{content}[/color]\n"
-        else:
-            formatted_text = f"{content}\n\n"
-
-        # Append the new text to existing text
-        self.text = self.text + formatted_text
-        # Schedule scroll to bottom
+        formatted_text = self._format_text(content, text_type)
+        suffix = "\n" if text_type == TextType.PROMPT else "\n\n"
+        self.text = self.text + formatted_text + suffix
         Clock.schedule_once(self._scroll_to_bottom, 0.1)
 
     def clear(self) -> None:
@@ -89,31 +95,25 @@ class GameOutput(Label):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
         self.text_size = (self.width, None)
-        # Ensure text height is updated
         Clock.schedule_once(self._update_height, 0.1)
 
     def _update_height(self, dt):
         """Update the height based on content."""
         if self.texture_size[1] > 0:
-            self.height = self.texture_size[1] + 20  # Add padding
-            # Ensure scroll view updates
+            self.height = self.texture_size[1] + 20
             if self._scroll_view:
                 self._scroll_view.scroll_y = 0
 
     def _on_text_change(self, instance, value):
         """Handle text changes and update layout."""
-        # Schedule height update after text change
         Clock.schedule_once(self._update_height, 0.1)
 
     def _scroll_to_bottom(self, dt):
         """Scroll to the bottom of the text."""
         if self._scroll_view:
-            # Force a layout update by temporarily disabling and re-enabling vertical scrolling
             self._scroll_view.do_scroll_y = False
             self._scroll_view.do_scroll_y = True
-            # Set scroll position to bottom
             self._scroll_view.scroll_y = 0
-            # Force a second scroll after a short delay to ensure it works
             Clock.schedule_once(lambda dt: setattr(self._scroll_view, "scroll_y", 0), 0.1)
 
     def set_scroll_view(self, scroll_view):
