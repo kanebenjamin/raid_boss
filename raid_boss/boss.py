@@ -32,7 +32,7 @@ class TheManaGod(Boss):
             7: self.nine,
             8: self.ten,
             9: self.eleven,
-            10: self.twelve
+            10: self.twelve,
         }
 
     def two(self):
@@ -118,7 +118,7 @@ class HorrorfromtheDepths(Boss):
             7: self.nine,
             8: self.ten,
             9: self.eleven,
-            10: self.twelve
+            10: self.twelve,
         }
 
     def two(self):
@@ -165,9 +165,7 @@ class HorrorfromtheDepths(Boss):
 
     def get_attack_hint(self, num_list):
         result = []
-        RECOIL_TEXT = (
-            "The Horror recoils as it prepares to unleash a massive tidal wave. "
-        )
+        RECOIL_TEXT = "The Horror recoils as it prepares to unleash a massive tidal wave. "
         CHANNEL_TEXT = "The Horror is channeling dark energies. "
         ATTACK_TEXT = "The Horror is summoning beasts from the depths. "
         CHANNEL_LIST = [1, 2, 3, 7, 8, 9]
@@ -184,7 +182,7 @@ class HorrorfromtheDepths(Boss):
                 if RECOIL_TEXT not in result:
                     result.append(RECOIL_TEXT)
         return " ".join(result) + "\n"
-    
+
 
 class LunarChanneler(Boss):
 
@@ -201,7 +199,7 @@ class LunarChanneler(Boss):
             7: self.nine,
             8: self.ten,
             9: self.eleven,
-            10: self.twelve
+            10: self.twelve,
         }
 
     def two(self):
@@ -244,14 +242,12 @@ class LunarChanneler(Boss):
 
     def get_attack_hint(self, num_list):
         result = []
-        EMRAKUL_TEXT = (
-            "An unsettling energy eminates from the moon... "
-        )
+        EMRAKUL_TEXT = "An unsettling energy eminates from the moon... "
         ZOMBIE_TEXT = "The ground begins to open at Lunar Channeler's feet."
         CHANNEL_TEXT = "Lunar Channeler begins chanting at the moon."
         ATTACK_TEXT = "Lunar Channeler is conjuring entities."
-        CHANNEL_LIST = [1,4,5,6]
-        ATTACK_LIST = [2,3,7,8,9]
+        CHANNEL_LIST = [1, 4, 5, 6]
+        ATTACK_LIST = [2, 3, 7, 8, 9]
         EMRAKUL_LIST = [10]
         ZOMBIE_LIST = [0]
         for num in num_list:

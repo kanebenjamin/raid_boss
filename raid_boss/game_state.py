@@ -3,7 +3,7 @@ from typing import List, Optional
 import math
 import random
 
-from boss import Boss, TheManaGod, HorrorfromtheDepths, LunarChanneler
+from raid_boss.boss import Boss, TheManaGod, HorrorfromtheDepths, LunarChanneler
 
 
 @dataclass
@@ -15,7 +15,7 @@ class GameState:
     store_prerolls: List[List[int]] = None
     defeated_players: int = 0
 
-    def __post_init__(self):
+    def __init__(self):
         self.store_prerolls = self._preroll_boss_actions()
 
     def _preroll_boss_actions(self) -> List[List[int]]:
@@ -35,24 +35,15 @@ class GameState:
 
     def initialize_boss(self, boss_type: str) -> None:
         if boss_type == "1":
-            self.boss = TheManaGod(
-                player_count=self.num_players, 
-                boss_name=self.boss_name
-            )
+            self.boss = TheManaGod(player_count=self.num_players, boss_name=self.boss_name)
         elif boss_type == "2":
-            self.boss = HorrorfromtheDepths(
-                player_count=self.num_players, 
-                boss_name=self.boss_name
-            )
+            self.boss = HorrorfromtheDepths(player_count=self.num_players, boss_name=self.boss_name)
         elif boss_type == "3":
-            self.boss = LunarChanneler(
-                player_count=self.num_players, 
-                boss_name=self.boss_name
-            )
+            self.boss = LunarChanneler(player_count=self.num_players, boss_name=self.boss_name)
 
     def process_damage(self, damage: int) -> None:
         if self.boss:
             self.boss.health -= damage
 
     def is_game_over(self) -> bool:
-        return self.boss and self.boss.health <= 0 
+        return self.boss and self.boss.health <= 0
