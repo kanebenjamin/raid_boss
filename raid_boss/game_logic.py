@@ -27,7 +27,6 @@ class GameLogic:
     def _handle_invalid_input(self, error_msg: str, prompt: str) -> None:
         """Display error message and prompt for new input."""
         self.output.add_text(error_msg, TextType.ERROR)
-        self.output.add_text(prompt, TextType.PROMPT)
 
     def _get_valid_input(
         self, user_input: str, validator: Callable[[str], Tuple[bool, Any]], error_msg: str, prompt: str
