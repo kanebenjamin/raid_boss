@@ -147,7 +147,12 @@ class GameLogic:
         if is_valid:
             self.game_state.defeated_players = defeated
             self.game_state.boss.turn_count += 1
-            self.game_state.phase = 3
+
+            # Check if all players are defeated
+            if defeated >= self.game_state.num_players:
+                self.output.add_text("\nAll players have been defeated! The boss wins!", TextType.GAME_STATE)
+                self.show_game_over()
+                return
 
             if self.game_state.is_game_over():
                 self.show_game_over()

@@ -140,6 +140,11 @@ class TestRaidBossApp(unittest.TestCase):
         self.assertEqual(self.app.game_state.defeated_players, 1)  # Should not change
         self.assertEqual(self.app.game_state.phase, 3)  # Should not change
 
+        # Test all players defeated
+        self.app.game_logic.handle_defeated_players("4")
+        self.assertEqual(self.app.game_state.defeated_players, 4)
+        self.assertEqual(self.app.game_state.phase, 6)  # Phase should be 6 (game complete) when all players are defeated
+
     def test_game_over_condition(self):
         """Test game over condition handling."""
         # Set up initial state
