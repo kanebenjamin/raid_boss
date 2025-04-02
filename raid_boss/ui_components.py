@@ -2,7 +2,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
-from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import StringProperty
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.uix.widget import Widget

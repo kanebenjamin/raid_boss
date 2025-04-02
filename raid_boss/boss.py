@@ -1,6 +1,3 @@
-import random
-
-
 class Boss(object):
 
     result_text = ""
