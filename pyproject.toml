@@ -19,7 +19,7 @@ black = "^25.1.0"
 package-mode = false
 
 [tool.black]
-line-length = 88
+line-length = 120
 target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
 include = '\.pyi?$'
 exclude = '''

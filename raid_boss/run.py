@@ -27,13 +27,9 @@ for i in range(100):
 if __name__ == "__main__":
     num_players = int(input("Welcome to Raid Boss! How many people are playing? > "))
     boss_name = str(
-        input(
-            f"Ahh! Welcome to the dungeon, ye {num_players} brave wizard(s)! Who have you come here to slay? > "
-        )
+        input(f"Ahh! Welcome to the dungeon, ye {num_players} brave wizard(s)! Who have you come here to slay? > ")
     )
-    print(
-        f"\nHere comes {boss_name} now! Prepare thyselves for a whimsical battle! Best of luck!"
-    )
+    print(f"\nHere comes {boss_name} now! Prepare thyselves for a whimsical battle! Best of luck!")
 
     boss_list = [boss.TheManaGod, boss.HorrorfromtheDepths, boss.LunarChanneler]
     stinky = boss.LunarChanneler(player_count=num_players, boss_name=boss_name)
@@ -63,9 +59,7 @@ if __name__ == "__main__":
         for i in range(0, stinky.player_count):
             try:
                 damage_done = int(
-                    input(
-                        f"PLAYER {i+1} TURN: Enter damage dealt! (Even if it's zero) and press enter!> "
-                    )
+                    input(f"\n\nPLAYER {i+1} TURN: Enter damage dealt! (Even if it's zero) and press enter!> ")
                 )
                 stinky.health -= damage_done
             except ValueError:
@@ -82,15 +76,11 @@ if __name__ == "__main__":
         stinky.next_attacks = store_prerolls[stinky.turn_count + 1]
 
         if len(store_prerolls[stinky.turn_count]) == 0:
-            print(f"{boss_name} cannot attack on turn 1! You're safe until next turn.")
+            print(f"\n\n{boss_name} cannot attack on turn 1! You're safe until next turn.")
         for num in stinky.current_attacks:
             stinky.text_result += "\n" + str(boss_funcs[num]()) + "\n"
 
-        print(
-            "The boss gets "
-            + str(len(stinky.current_attacks))
-            + " roll(s) this turn! Brace yourself!"
-        )
+        print("The boss gets " + str(len(stinky.current_attacks)) + " roll(s) this turn! Brace yourself!")
         print("TURN COUNT: " + str(stinky.turn_count))
         if stinky.turn_count != 1:
             print(
@@ -102,20 +92,12 @@ if __name__ == "__main__":
         print(stinky.get_attack_hint(stinky.next_attacks))
 
         try:
-            death_count = int(
-                input(
-                    "How many players were defeated this turn? (enter 0 if no one was defeated) > "
-                )
-            )
+            death_count = int(input("How many players were defeated this turn? (enter 0 if no one was defeated) > "))
             stinky.player_count -= death_count
         except ValueError:
-            print(
-                "Invalid response! I'm going to assume everyone is still in the fight!"
-            )
+            print("Invalid response! I'm going to assume everyone is still in the fight!")
         if stinky.player_count <= 0:
-            print(
-                f"{boss_name} has defeated you!!!! Retreat and come back- next time cast better spells!"
-            )
+            print(f"{boss_name} has defeated you!!!! Retreat and come back- next time cast better spells!")
             break
 
         stinky.turn_count += 1

@@ -61,3 +61,5 @@ poetry run black .
 2. Fix Kivy bugs in `main.py`. 
 
 3. Real GUI features, more unit tests, build for mobile, add a license, and more!
+
+NOTE: The font used in this game is licensed for Personal Use Only. It will need to be changed for any commercial purposes.
